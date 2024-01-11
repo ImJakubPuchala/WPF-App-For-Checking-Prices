@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using WPF_App_For_Checking_Prices.Service;
 
 namespace WPF_App_For_Checking_Prices.ViewModel;
 class SerialPortViewModel : INotifyPropertyChanged
 {
+    private ApiService _apiService;
     public event PropertyChangedEventHandler PropertyChanged;
     private SerialPortModel serialPortModel;
     private string scannedData;
@@ -37,6 +39,7 @@ class SerialPortViewModel : INotifyPropertyChanged
 
     public SerialPortViewModel()
     {
+        _apiService = new ApiService();
         serialPortModel = new SerialPortModel();
         serialPortModel.DataReceived += SerialPortModel_DataReceived;
     }                      
@@ -46,33 +49,15 @@ class SerialPortViewModel : INotifyPropertyChanged
         Application.Current.Dispatcher.Invoke(async () =>
         {
             ScannedData = data;
-            await SendDataToApiAsync(data);
-        });
-    }
-
-    private async Task SendDataToApiAsync(string data)
-    {
-        using (var client = new HttpClient())
-        {
-            string apiUrl = $"https://localhost:7204/Price?EAN={data}";
             try
             {
-                var response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    ProductInfo = JsonConvert.DeserializeObject<ProductInformation>(content);
-                }
-                else
-                {
-                    MessageBox.Show("Error fetching data from API");
-                }
+                ProductInfo = await _apiService.GetProductInformationAsync(data);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Exception occurred: {ex.Message}");
             }
-        }
+        });
     }
 
     public void ChangeSerialPort(string portName)
