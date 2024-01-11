@@ -11,7 +11,38 @@
         Width="800"
         MinWidth="800"
         ResizeMode="NoResize"
-        >
+        Background="{DynamicResource AppBackground}">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="AppBackground" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#180A46" Offset="0.0"/>
+            <GradientStop Color="#0A2246" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2536F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1A1A2E"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -27,22 +58,31 @@
             <RowDefinition Height="32" />
         </Grid.RowDefinitions>
 
+        <TextBlock Grid.Column="1" Text="Scan Item:" TextAlignment="Center" 
+                   VerticalAlignment="Top" FontSize="36" FontWeight="Bold" 
+                   Margin="0,18,0,0" Foreground="White"/>
 
-        <TextBlock Grid.Column="1" Text="Scan Item:" TextAlignment="Center" VerticalAlignment="Top" FontSize="36px" FontWeight="Bold" Margin="0,18,0,0"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Name:" 
+                   FontWeight="Bold" HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" Style="{StaticResource TextStyle}"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                   Text="{Binding ProductInfo.Name}" Style="{StaticResource TextStyle}"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Name:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ProductInfo.Name}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Price:" 
+                   FontWeight="Bold" HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" Style="{StaticResource TextStyle}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                   Text="{Binding ProductInfo.Price}" Style="{StaticResource TextStyle}"/>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Price:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ProductInfo.Price}" />
+        <Button Grid.Row="5" Grid.Column="0" Content="Settings" 
+                Click="OpenSettings_Click" Style="{StaticResource ButtonStyle}" Margin="2"/>
 
-        <Button Grid.Row="5" Grid.Column="0" Content="Settings" Click="OpenSettings_Click" Margin="5,2,160,2"/>
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Scanned Item:" 
+                   TextWrapping="Wrap" TextAlignment="Left" 
+                   VerticalAlignment="Center" Style="{StaticResource TextStyle}"/>
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ScannedData}" 
+                   TextWrapping="Wrap" TextAlignment="Left" Style="{StaticResource TextStyle}" Margin="92,0,0,0" Width="175"/>
 
-        <TextBlock Grid.Row="5" Grid.Column="2" Text="Scanned Item:" TextWrapping="Wrap" TextAlignment="Left" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ScannedData}" TextWrapping="Wrap" TextAlignment="Right" VerticalAlignment="Center"/>
-
-        <Border BorderThickness="0 0 0 3" BorderBrush="#217794" Grid.ColumnSpan="3"/>
-
+        <Border BorderThickness="0 0 0 3" BorderBrush="#25BAF5" Grid.ColumnSpan="3"/>
     </Grid>
-
 </Window>

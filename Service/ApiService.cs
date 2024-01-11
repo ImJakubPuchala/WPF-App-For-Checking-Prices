@@ -30,7 +30,9 @@ public class ApiService
             }
             else
             { 
-                return null;
+                ProductInformation productInformation = new ProductInformation();
+                productInformation.Name = "Product not found";
+                return productInformation;
             }
         }
         catch (Exception ex)
