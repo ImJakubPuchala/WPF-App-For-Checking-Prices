@@ -39,7 +39,7 @@ class SerialPortViewModel : INotifyPropertyChanged
     {
         serialPortModel = new SerialPortModel();
         serialPortModel.DataReceived += SerialPortModel_DataReceived;
-    }
+    }                      
 
     private void SerialPortModel_DataReceived(string data)
     {
@@ -54,7 +54,7 @@ class SerialPortViewModel : INotifyPropertyChanged
     {
         using (var client = new HttpClient())
         {
-            string apiUrl = $"https://localhost:7052/Price?EAN={data}";
+            string apiUrl = $"https://localhost:7204/Price?EAN={data}";
             try
             {
                 var response = await client.GetAsync(apiUrl);
